@@ -1,0 +1,5 @@
+*.html
+*.pyc
+*asset*
+*.pytest_cache*
+*__pycache__*
