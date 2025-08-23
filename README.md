@@ -16,4 +16,5 @@ pip install -r requirement.txt
 #execute API pytest
 navigate to <swapnil_automation/api_automation_pytest> folder in repo
 python -m pytest --html=log.html tests/test_api_endpoints.py
-
+OR
+pytest --html=log.html tests/assert_aad/test_assert_add.py 
