@@ -1,4 +1,21 @@
 # serializer version: 1
+# name: test_add_new_user[add_new_user_snapshot]
+  dict({
+    '@odata.context': 'https://graph.microsoft.com/v1.0/$metadata#users/$entity',
+    'businessPhones': list([
+    ]),
+    'givenName': None,
+    'jobTitle': None,
+    'mail': None,
+    'mobilePhone': None,
+    'officeLocation': None,
+    'preferredLanguage': None,
+    'surname': None,
+  })
+# ---
+# name: test_delete_user[delete_user_snapshot]
+  <Response [204]>
+# ---
 # name: test_get_all_users[all_users_snapshot]
   dict({
     '@odata.context': 'https://graph.microsoft.com/v1.0/$metadata#users',
@@ -19,4 +36,19 @@
       }),
     ]),
   })
+# ---
+# name: test_get_single_user_details[single_user_snapshot]
+  dict({
+    '@odata.context': 'https://graph.microsoft.com/v1.0/$metadata#users/$entity',
+    'businessPhones': list([
+    ]),
+    'jobTitle': None,
+    'mail': None,
+    'mobilePhone': None,
+    'officeLocation': None,
+    'preferredLanguage': 'en',
+  })
+# ---
+# name: test_update_existing_user_details[update_user_snapshot]
+  <Response [204]>
 # ---

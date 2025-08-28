@@ -1,6 +1,6 @@
 import pytest
 from resources.reso_azure_active_directory import reso_aad
-from resources.reso_azure_active_directory import snap_aad
+from resources.reso_azure_active_directory import assert_snapshot_aad
 
 @pytest.fixture(scope="session",autouse=True)
 def generate_token():
@@ -15,35 +15,32 @@ def generate_token():
 def test_get_all_users(snapshot):
     all_users = reso_aad.get_all_users(aad_headers)
     print("all user in aad",all_users.json())
-    snap_aad.assert_all_users(snapshot, all_users.json(),"all_users_snapshot")
+    assert_snapshot_aad.assert_all_users_path_match(snapshot, all_users.json(),"all_users_snapshot")
 
-#     print("all user in aad",all_users.json())
-#     for user in all_users.json()["value"]:
-#         if user["displayName"] == "swapnil dhalwade":
-#             global swapnil_user_id
-#             swapnil_user_id = user["id"]
-#             assert user["surname"] == "dhalwade"
-#             assert user["givenName"] == "swapnil"
-#             break
+    print("all user in aad",all_users.json())
+    for user in all_users.json()["value"]:
+        if user["displayName"] == "swapnil dhalwade":
+            global swapnil_user_id
+            swapnil_user_id = user["id"]
+            assert user["surname"] == "dhalwade"
+            assert user["givenName"] == "swapnil"
+            break
 
-# def test_get_single_user_details():
-#     user_details = reso_aad.get_single_users_details(aad_headers, swapnil_user_id)
-#     print("Single User details:", user_details.json())
-#     assert user_details.json()["displayName"] == "swapnil dhalwade"
-#     assert user_details.json()["surname"] == "dhalwade"
+def test_get_single_user_details(snapshot):
+    user_details = reso_aad.get_single_users_details(aad_headers, swapnil_user_id)
+    assert_snapshot_aad.assert_single_user_exclude(snapshot, user_details.json(), "single_user_snapshot")
 
-# def test_add_new_user():
-#     global new_user_name, new_user_id
-#     new_user_name = "TestUser1234qq1q1a"
-#     add_new_user = reso_aad.add_new_user(aad_headers, new_user_name)
-#     print("Add New User Response:", add_new_user.json())
-#     assert add_new_user.json()["displayName"] == new_user_name
-#     new_user_id = add_new_user.json()["id"]
+def test_add_new_user(snapshot):
+    global new_user_name, new_user_id
+    new_user_name = "TestUser1234qq1qs1a"
+    add_new_user = reso_aad.add_new_user(aad_headers, new_user_name)
+    new_user_id = add_new_user.json()["id"]
+    assert_snapshot_aad.assert_add_new_user_props(snapshot, add_new_user.json(), "add_new_user_snapshot")
 
-# def test_update_existing_user_details():
-#     update_user_repo = reso_aad.update_existing_user(aad_headers, new_user_id)
-#     assert update_user_repo.status_code == 204
+def test_update_existing_user_details(snapshot):
+    update_user_repo = reso_aad.update_existing_user(aad_headers, new_user_id)
+    assert_snapshot_aad.assert_update_user(snapshot, update_user_repo, "update_user_snapshot")
 
-# def test_delete_user():
-#     deleted_user_response = reso_aad.delete_user(aad_headers, new_user_id)
-#     assert deleted_user_response.status_code == 204
+def test_delete_user(snapshot):
+    deleted_user_response = reso_aad.delete_user(aad_headers, new_user_id)
+    assert_snapshot_aad.assert_delete_user_check_all(snapshot, deleted_user_response, "delete_user_snapshot")
