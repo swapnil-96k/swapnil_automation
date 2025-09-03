@@ -24,3 +24,15 @@ navigate to <swapnil_automation/api_automation_pytest> folder in repo
 python -m pytest --snapshot-update --html=log.html tests/test_api_endpoints.py
 OR
 pytest --snapshot-update --html=log.html tests/assert_aad/test_assert_add.py 
+
+To check the Python code as per industry standards use pylint-
+pylint test.py 
+
+To fix the Python code as per industry standards use black-
+black test.py 
+
+To check the ROBOT code as per industry standards use pylint-
+robocop test.robot 
+
+for Fix -
+robocop --fix test.robot
